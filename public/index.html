@@ -1,0 +1,47 @@
+<html>
+  <head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script type="text/javascript" src="/eel.js"></script>
+    <link rel="stylesheet" href="style.css">
+    <style>
+
+    </style>
+  </head>
+  <body>
+    <nav>
+      <ul>
+        <li class="dropdown-container">
+          <label for="dropdown">Model Size : </label>
+          <select id="dropdown">
+            <option value="tiny">tiny</option>
+            <option value="base">base</option>
+            <option value="small">small</option>
+            <option value="medium">medium</option>
+            <option value="large">large</option>
+          </select>
+          <button onclick="setTranscipts()">Transcribe</button>
+        </li>
+      </ul>
+    </nav>
+    <div class="video-editor">
+      <div class=="subs" id="subs">
+        <p id="word-list"></p>
+      </div>
+      <div class="video-preview">
+        <div class="drop-zone">
+          Drop Video Here<br>or<br>
+          <div class="upload-section">
+            <input type="file" id="fileInput">
+            <label for="fileInput">
+              <i class="fa fa-upload"></i>Upload Video
+            </label>
+          </div>
+        </div>
+        <video id="video" controls style="display: none;"></video>
+      </div>
+
+  <script src="main.js"></script>
+</div>
+</body>
+</html>
+

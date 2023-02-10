@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <style>
+      #editor {
+        width: 500px;
+        height: 500px;
+        border: 1px solid black;
+        padding: 10px;
+        font-size: 16px;
+      }
+    </style>
+  </head>
+  <body>
+    <textarea id="editor">lorem epsum whatever the fudge</textarea>
+    <script>
+      const editor = document.getElementById("editor");
+      editor.addEventListener("input", function (event) {
+        let newValue = event.target.value;
+        const regex = /(^[\/~].*)|(.*[\/~]$)/gm;
+        if (!regex.test(newValue)) {
+          event.preventDefault();
+          editor.value = editor.value.substring(0, editor.value.length - 1);
+        }
+      });
+    </script>
+  </body>
+</html>

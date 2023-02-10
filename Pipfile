@@ -1,0 +1,22 @@
+[[source]]
+url = "https://pypi.org/simple"
+verify_ssl = true
+name = "pypi"
+
+[packages]
+whisper-timestamped = {git = "https://github.com/linto-ai/whisper-timestamped"}
+moviepy = "*"
+pyqt5 = "*"
+eel = "*"
+tkvideoplayer = "*"
+opencv-python = "*"
+pillow = "*"
+python-vlc = "*"
+pyglet = "*"
+wxpython = "*"
+
+[dev-packages]
+pytube = "*"
+
+[requires]
+python_version = "3.9"
