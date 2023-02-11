@@ -14,14 +14,7 @@ test = {
 "9": { "text": "wtf", "f":40,"t":45 ,"highlighted": False, "struckThrough": False }
 }
 
-vidPath = ""
-
 eel.init('public')
-
-# @eel.expose
-# def transcribe(src):
-#     return test
-
 
 @eel.expose
 def transcribe(wildcard="*"):
@@ -33,6 +26,22 @@ def transcribe(wildcard="*"):
     else:
         path = None
     dialog.Destroy()
-    return test
+    audio = whisper.load_audio(path)
+    model = whisper.load_model("tiny", device="cpu")
+    result = whisper.transcribe(model, audio)
+    seg = result["segments"]
+    out = {}
+    idx = 1
+    for i in seg:
+        words = i["words"]
+        for word in words:
+            out[idx] = {}
+            out[idx]["text"] = word["text"]
+            out[idx]["f"] = word["start"]
+            out[idx]["t"] = word["end"]
+            out[idx]["highlighted"]= False
+            out[idx]["struckThrough"]= False
+            idx+=1
+    return out
 
 eel.start('index.html',mode='default')

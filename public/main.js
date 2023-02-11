@@ -79,7 +79,9 @@ function getURL(){
 }
 
 async function setTranscipts(){
+  loader.style.display = 'block'
   dict =  await eel.transcribe()()
+  loader.style.display = 'none'
   words = dict
   let wordListHTML = "";
   for (const word in words) {
