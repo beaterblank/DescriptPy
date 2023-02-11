@@ -31,11 +31,6 @@ def reduce_strikethrough_words(strikethrough_words, gap=0.1):
                 current_end = float(word["end"])
     reduced_words.append({"start": current_start, "end": current_end})
     return reduced_words
-
-
-
-
-
 @eel.expose
 def getpath():
     wildcard="*"
