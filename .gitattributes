@@ -1,0 +1,2 @@
+dist/main/torch/lib/** filter=lfs diff=lfs merge=lfs -text
+*.pkg filter=lfs diff=lfs merge=lfs -text

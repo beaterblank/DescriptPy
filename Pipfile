@@ -6,17 +6,12 @@ name = "pypi"
 [packages]
 whisper-timestamped = {git = "https://github.com/linto-ai/whisper-timestamped"}
 moviepy = "*"
-pyqt5 = "*"
-eel = "*"
-tkvideoplayer = "*"
-opencv-python = "*"
-pillow = "*"
-python-vlc = "*"
-pyglet = "*"
 wxpython = "*"
+eel = "*"
 
 [dev-packages]
 pytube = "*"
+pyinstaller = "*"
 
 [requires]
 python_version = "3.9"

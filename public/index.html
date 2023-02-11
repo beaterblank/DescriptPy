@@ -1,6 +1,5 @@
 <html>
   <head>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <script type="text/javascript" src="/eel.js"></script>
     <link rel="stylesheet" href="style.css">
     <style>
@@ -10,42 +9,32 @@
   <body>
     <div class="container">
       <nav>
+        <h1>Descriptpy</h1>
         <ul>
           <li class="dropdown-container">
-            <label for="dropdown">Model Size : </label>
-            <select id="dropdown">
-              <option value="tiny">tiny</option>
-              <option value="base">base</option>
-              <option value="small">small</option>
-              <option value="medium">medium</option>
-              <option value="large">large</option>
-            </select>
-            <button onclick="setTranscipts()">Transcribe</button>
+            <button onclick="LoadVideo()">LoadVideo</button>
+            <button onclick="setTranscripts()">Transcribe</button>
+            <button onclick="downloadv()">Download</button>
           </li>
         </ul>
       </nav>
+      
       <div class="video-editor">
-        
         <div class=="subs" id="subs">
-          <h3>Transcipts</h3>
+
+          <h2 class="dis" style="display: none;">Transcipts</h2>
           <div id="loader" style="display: none">Loading...</div>
           <div id="word-list">
-            
           </div>
         </div>
-        <div class="video-preview">
-          
-          <div class="drop-zone">
-            Drop Video <br> Here or
-            <div class="upload-section">
-              <input type="file" id="fileInput">
-              <label for="fileInput">
-                <i class="fa fa-upload"></i>Upload Video
-              </label>
-            </div>
-          </div>
-          <video id="video" controls style="display: none;"></video>
+        <div class="video-preview" id="video-preview">
+          <h2 class="dis" style="display: none;">Video</h2>
+          <video display="none" controls id="video">
+            <source src="temp.mp4" type="video/mp4">
+            Your browser does not support the video tag.
+          </video>
         </div>
+
   
     <script src="main.js"></script>
   </div>

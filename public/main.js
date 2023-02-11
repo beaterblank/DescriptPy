@@ -1,172 +1,120 @@
 const video = document.querySelector("#video");
-const fileInput = document.querySelector("#fileInput");
-const dropZone = document.querySelector(".drop-zone");
-const dropdown = document.querySelector("#dropdown")
+const wordsContainer = document.getElementById("word-list");
+const loader = document.getElementById("loader");
+let words;
+let path;
 
-let startTime = 0
-let endTime = 0
-
-async function UploadVideo(e){
-  e.preventDefault();
-  dropZone.classList.remove("drag-over");
-  if(e.target.files){
-    url =  e.target.files[0]
-    console.log(url);
-  }else{
-    url = e.dataTransfer.files[0]
-    console.log(url);
+async function LoadVideo(){
+  path = await eel.getpath()()
+  video.src = "temp.mp4"
+  let elements = document.querySelectorAll('.dis');
+  for (let element of elements) {
+    element.style.display = 'block';
   }
-  video.src = URL.createObjectURL(url);
-  video.load();
-  video.style.display="block"
-  dropZone.style.display = "none";
-  endTime = video.duration;
-}
-video.addEventListener("ended", function() {
-  video.currentTime = startTime;
-  video.play();
-});
-video.addEventListener("timeupdate", function() {
-  if (video.currentTime >= endTime) {
-    video.currentTime = startTime;
-  }
-});
-
-video.addEventListener("timeupdate", function() {
-  wl = wordList.querySelectorAll(".word")
-  dl = document.querySelectorAll(".dualighted")
-  for(let i=0; i<dl.length ;i++ ){
-    const currentWord = dl[i];
-    currentWord.classList.remove("dualighted")
-  }
-  for(let i=0; i<wl.length ;i++ ){
-    const currentWord = wl[i];
-    const currentWordKey = currentWord.getAttribute("data-word");
-    if(words[currentWordKey].f<=video.currentTime && words[currentWordKey].t>=video.currentTime){
-      currentWord.classList.add("dualighted");
-      break;
-    }
-  }
-
-});
-
-
-
-fileInput.addEventListener("change",UploadVideo);
-dropZone.addEventListener("drop", UploadVideo);
-
-dropZone.addEventListener("dragover", function(e) {
-  e.preventDefault();
-  dropZone.classList.add("drag-over");
-});
-
-dropZone.addEventListener("dragleave", function(e) {
-  e.preventDefault();
-  dropZone.classList.remove("drag-over");
-});
-
-eel.expose(getCurrentTime);
-function getCurrentTime(){
-  return video.currentTime
+  video.load()
+  video.style.display = "block"
+  endTime=video.duration
 }
 
-eel.expose(getModelSize);
-function getModelSize(){
-  return dropdown.options[dropdown.selectedIndex].value;
-}
-
-eel.expose(getURL)
-function getURL(){
-  return video.src
-}
-
-async function setTranscipts(){
-  loader.style.display = 'block'
-  dict =  await eel.transcribe()()
-  loader.style.display = 'none'
-  words = dict
-  let wordListHTML = "";
-  for (const word in words) {
-    wordListHTML += `<span class="word" data-word="${word}"> ${words[word].text} </span>`;
-  }
-  wordList.innerHTML = wordListHTML;
-}
-    
-
-let words = {}
-const wordList = document.querySelector("#word-list");
-
-
-let lastSelectedWord = null;
-wordList.addEventListener("click", function(event) {
-  if (event.target.classList.contains("word")) {
-    const word = event.target.getAttribute("data-word");
-    if (event.shiftKey) {
-      words[word].struckThrough = !words[word].struckThrough;
-      event.target.classList.toggle("strike");
-    } else if(event.ctrlKey){
-      if (lastSelectedWord) {
-        let startIndex = Array.prototype.indexOf.call(wordList.querySelectorAll(".word"), lastSelectedWord);
-        let endIndex = Array.prototype.indexOf.call(wordList.querySelectorAll(".word"), event.target);
-        
-        if (startIndex > endIndex) {
-          [startIndex, endIndex] = [endIndex, startIndex];
-        }
-        startTime = Number(words[wordList.querySelectorAll(".word")[startIndex].getAttribute("data-word")].f);
-        endTime = Number(words[wordList.querySelectorAll(".word")[endIndex].getAttribute("data-word")].t);
-        for (let i = startIndex; i <= endIndex; i++) {
-          const currentWord = wordList.querySelectorAll(".word")[i];
-          const currentWordKey = currentWord.getAttribute("data-word");
-          words[currentWordKey].highlighted = true;
-          currentWord.classList.add("highlighted");
-        }
-        lastSelectedWord = event.target;
-      } else {
-        for (const key in words) {
-          words[key].highlighted = false;
-        }
-        
-        const highlightedWords = document.querySelectorAll(".highlighted");
-        highlightedWords.forEach(function(word) {
-          word.classList.remove("highlighted");
-        });
-        words[word].highlighted = true;
-        event.target.classList.add("highlighted");
-        lastSelectedWord = event.target;
+async function setTranscripts() {
+  
+  loader.style.display = "block";
+  words = await eel.transcribe()();
+  loader.style.display = "none";
+  
+  // Clear any existing words
+  wordsContainer.innerHTML = "";
+  // Create an element for each word
+  
+  words.forEach(({ text, start, end }) => {
+    const wordEl = document.createElement("span");
+    wordEl.classList.add("word");
+    wordEl.innerText = ' '+text+' ';
+    wordEl.dataset.start = start;
+    wordEl.dataset.end = end;
+    wordEl.addEventListener("mouseover", function(e){
+      if(e.buttons == 1 || e.buttons == 3){
+        wordEl.classList.toggle("strike");
       }
-    }else{
-      for (const key in words) {
-        words[key].highlighted = false;
-      }
-      
-      const highlightedWords = document.querySelectorAll(".highlighted");
-      highlightedWords.forEach(function(word) {
-        word.classList.remove("highlighted");
-      });
-      words[word].highlighted = true;
-
-      startTime = Number(words[word].f)
-      endTime = Number(words[word].t)
-
-      event.target.classList.add("highlighted");
-      lastSelectedWord = event.target;
-    }
-  }
-  video.currentTime = startTime
-});
-
-document.body.addEventListener("dblclick", function(event){
-  for (const key in words) {
-    words[key].highlighted = false;
-  }
-  const highlightedWords = document.querySelectorAll(".highlighted");
-  highlightedWords.forEach(function(word) {
-    word.classList.remove("highlighted");
+    });
+    wordEl.addEventListener("click", function(e){
+        wordEl.classList.toggle("strike");
+    });
+    wordsContainer.appendChild(wordEl);
   });
-  lastSelectedWord = null
-  startTime =0
-  endTime = video.duration;
-  video.currentTime = 0
-  video.pause();
-})
+}
 
+function updateHighlight(time) {
+  // Find the word that is being spoken at the current time
+  const word = words.find(({ start, end }) => time >= start && time < end);
+  if (word) {
+    // Highlight the word
+    const wordEl = wordsContainer.querySelector(
+      `.word[data-start="${word.start}"][data-end="${word.end}"]`
+    );
+    wordEl.classList.add("highlighted");
+  }
+}
+
+function ifStriked(time) {
+  // Find the word that is being spoken at the current time
+  const word = words.find(({ start, end }) => time >= start && time < end);
+  if (word) {
+    // Highlight the word
+    const wordEl = wordsContainer.querySelector(
+      `.word[data-start="${word.start}"][data-end="${word.end}"]`
+    );
+    return wordEl.classList.contains("strike")
+  }else{
+    return false
+  }
+}
+
+function skipStrikethroughWords(time) {
+  // Find the next word after the current time that is not strikethrough
+  let nextTime = time;
+  for (let i = 0; i < words.length; i++) {
+    const { start, end } = words[i];
+    if (time < start) {
+      const wordEl = wordsContainer.querySelector(
+        `.word[data-start="${start}"][data-end="${end}"]`
+      );
+      if (!wordEl.classList.contains("strike")) {
+        nextTime = start;
+        break;
+      }
+    }
+  }
+  return nextTime;
+}
+
+video.addEventListener("timeupdate", () => {
+  // Remove the highlight from all words
+  Array.from(wordsContainer.children).forEach(wordEl => {
+    wordEl.classList.remove("highlighted");
+  });
+  // Highlight the current word
+  updateHighlight(video.currentTime);
+  if(ifStriked(video.currentTime)){
+    video.currentTime = skipStrikethroughWords(video.currentTime);
+  }
+});
+
+
+function getStrikethroughWords() {
+  const strikethroughWords = [];
+  const strikedWordEls = wordsContainer.querySelectorAll(".strike");
+  strikedWordEls.forEach(wordEl => {
+    const start = wordEl.dataset.start;
+    const end = wordEl.dataset.end;
+    strikethroughWords.push({ start, end });
+  });
+  return strikethroughWords;
+}
+
+async function downloadv(){
+  loader.style.display = "block";
+  times = getStrikethroughWords()
+  await eel.saveVid(times,path)
+  loader.style.display = "none";
+}
