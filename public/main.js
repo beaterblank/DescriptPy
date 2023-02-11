@@ -11,8 +11,10 @@ async function UploadVideo(e){
   dropZone.classList.remove("drag-over");
   if(e.target.files){
     url =  e.target.files[0]
+    console.log(url);
   }else{
     url = e.dataTransfer.files[0]
+    console.log(url);
   }
   video.src = URL.createObjectURL(url);
   video.load();

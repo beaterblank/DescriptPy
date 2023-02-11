@@ -8,42 +8,48 @@
     </style>
   </head>
   <body>
-    <nav>
-      <ul>
-        <li class="dropdown-container">
-          <label for="dropdown">Model Size : </label>
-          <select id="dropdown">
-            <option value="tiny">tiny</option>
-            <option value="base">base</option>
-            <option value="small">small</option>
-            <option value="medium">medium</option>
-            <option value="large">large</option>
-          </select>
-          <button onclick="setTranscipts()">Transcribe</button>
-        </li>
-      </ul>
-    </nav>
-    <div class="video-editor">
-      <div class=="subs" id="subs">
-        <div id="loader" style="display: none">Loading...</div>
-        <p id="word-list"></p>
-      </div>
-      <div class="video-preview">
+    <div class="container">
+      <nav>
+        <ul>
+          <li class="dropdown-container">
+            <label for="dropdown">Model Size : </label>
+            <select id="dropdown">
+              <option value="tiny">tiny</option>
+              <option value="base">base</option>
+              <option value="small">small</option>
+              <option value="medium">medium</option>
+              <option value="large">large</option>
+            </select>
+            <button onclick="setTranscipts()">Transcribe</button>
+          </li>
+        </ul>
+      </nav>
+      <div class="video-editor">
         
-        <div class="drop-zone">
-          Drop Video <br> Here or
-          <div class="upload-section">
-            <input type="file" id="fileInput">
-            <label for="fileInput">
-              <i class="fa fa-upload"></i>Upload Video
-            </label>
+        <div class=="subs" id="subs">
+          <h3>Transcipts</h3>
+          <div id="loader" style="display: none">Loading...</div>
+          <div id="word-list">
+            
           </div>
         </div>
-        <video id="video" controls style="display: none;"></video>
-      </div>
-
-  <script src="main.js"></script>
-</div>
+        <div class="video-preview">
+          
+          <div class="drop-zone">
+            Drop Video <br> Here or
+            <div class="upload-section">
+              <input type="file" id="fileInput">
+              <label for="fileInput">
+                <i class="fa fa-upload"></i>Upload Video
+              </label>
+            </div>
+          </div>
+          <video id="video" controls style="display: none;"></video>
+        </div>
+  
+    <script src="main.js"></script>
+  </div>
+    </div>
 </body>
 </html>
 
