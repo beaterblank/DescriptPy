@@ -1,1 +1,1 @@
-python -m eel main.py public --copy-metadata tqdm --copy-metadata numpy --copy-metadata requests --copy-metadata tokenizers --copy-metadata regex --copy-metadata packaging --copy-metadata filelock --add-data "whisper;whisper"
+python -m eel descriptpy.py public --copy-metadata tqdm --copy-metadata numpy --copy-metadata requests --copy-metadata tokenizers --copy-metadata regex --copy-metadata packaging --copy-metadata filelock --add-data "whisper;whisper" --icon "icon.ico"

@@ -1,6 +1,7 @@
 const video = document.querySelector("#video");
 const wordsContainer = document.getElementById("word-list");
 const loader = document.getElementById("loader");
+const dropdown = document.querySelector("#dropdown")
 let words;
 let path;
 
@@ -16,10 +17,15 @@ async function LoadVideo(){
   endTime=video.duration
 }
 
+function getModelSize(){
+  return dropdown.options[dropdown.selectedIndex].value;
+}
+
+
 async function setTranscripts() {
   
   loader.style.display = "block";
-  words = await eel.transcribe()();
+  words = await eel.transcribe(getModelSize())();
   loader.style.display = "none";
   
   // Clear any existing words

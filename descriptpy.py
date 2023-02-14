@@ -3,18 +3,14 @@ import shutil
 import whisper_timestamped as whisper
 import wx
 import os
-import subprocess
 from moviepy.video.io.VideoFileClip import VideoFileClip
 
 
-eel.init('public')
-try:
-    os.remove("./public/temp.mp4")
-except:
-    pass
-
-
-def reduce_strikethrough_words(strikethrough_words, gap=0.1):
+def reduce_strikethrough_words(strikethrough_words:list, gap:float=0.1)->list:
+    """
+    Reduces the list of strikethrough words by merging consecutive words
+    that are closer than `gap` seconds to each other.
+    """
     reduced_words = []
     current_start = None
     current_end = None
@@ -31,8 +27,14 @@ def reduce_strikethrough_words(strikethrough_words, gap=0.1):
                 current_end = float(word["end"])
     reduced_words.append({"start": current_start, "end": current_end})
     return reduced_words
+
 @eel.expose
-def getpath():
+def getpath()->str:
+    """
+    Shows a file open dialog and returns the selected file path.
+    If no file is selected, returns None.also copies the file into 
+    ./public/temp.mp4
+    """
     wildcard="*"
     app = wx.App(None)
     style = wx.FD_OPEN | wx.FD_FILE_MUST_EXIST
@@ -44,9 +46,14 @@ def getpath():
     dialog.Destroy()
     shutil.copyfile(path,"./public/temp.mp4")
     return path
+
 @eel.expose
-def transcribe():
-    mdl ="small"
+def transcribe(size)->list:
+    """
+    Transcribes the audio from the video file in `./public/temp.mp4`.
+    Returns the transcribed words along with their start and end times.
+    """
+    mdl =size
     audio = whisper.load_audio("./public/temp.mp4")
     model = whisper.load_model(mdl, device="cpu")
     result = whisper.transcribe(model, audio)
@@ -71,8 +78,12 @@ def transcribe():
             })
     result.append(out[-1])
     return result
+
 @eel.expose
-def saveVid(strikethrough_words,lpath):
+def saveVid(strikethrough_words:list,lpath:str)->None:
+    """
+    Saves the edited video by removing the strikethrough words
+    """
     app = wx.App(None)
     style = wx.FD_OPEN | wx.FD_FILE_MUST_EXIST
     dialog = wx.FileDialog(None, "Save file", "", "", "All files (*.*)|*.*", wx.FD_SAVE | wx.FD_OVERWRITE_PROMPT)
@@ -90,5 +101,16 @@ def saveVid(strikethrough_words,lpath):
         if(start >= 0 and end <= video_duration):
             clip = clip.cutout(ta=start,tb=end)
     clip.write_videofile(path)
+
+
+
+try:
+    # remove the file if it exists
+    os.remove("./public/temp.mp4")
+except FileNotFoundError:
+    # do nothing if the file doesn't exist
+    pass
+
+eel.init('public')
 eel.start('./index.html' ,mode='chrome')
 
