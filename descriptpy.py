@@ -112,5 +112,8 @@ except FileNotFoundError:
     pass
 
 eel.init('public')
-eel.start('./index.html' ,mode='chrome')
+try:
+    eel.start('./index.html' ,mode='chrome',size=(1200,600))
+except EnvironmentError:
+    eel.start("./index.html",mode='default',size=(1200,600))
 

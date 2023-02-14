@@ -14,7 +14,6 @@ async function LoadVideo(){
   }
   video.load()
   video.style.display = "block"
-  endTime=video.duration
 }
 
 function getModelSize(){
@@ -29,7 +28,7 @@ async function setTranscripts() {
   loader.style.display = "none";
   
   // Clear any existing words
-  wordsContainer.innerHTML = "";
+  wordsContainer.innerHTML = '';
   // Create an element for each word
   
   words.forEach(({ text, start, end }) => {
@@ -38,6 +37,7 @@ async function setTranscripts() {
     wordEl.innerText = ' '+text+' ';
     wordEl.dataset.start = start;
     wordEl.dataset.end = end;
+
     wordEl.addEventListener("mouseover", function(e){
       if(e.buttons == 1 || e.buttons == 3){
         wordEl.classList.toggle("strike");

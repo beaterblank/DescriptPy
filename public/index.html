@@ -11,10 +11,11 @@
   <body>
     <div class="container">
       <nav>
-        <h1>Descriptpy</h1>
         <ul>
+          
           <li class="dropdown-container">
-              <label for="dropdown">Model Size : </label>
+            <div><h1>Descriptpy</h1></div>
+            <div><label for="dropdown">Model Size : </label>
               <select id="dropdown">
                 <option value="tiny">tiny</option>
                 <option value="base">base</option>
@@ -24,25 +25,21 @@
               </select>
             <button onclick="LoadVideo()">LoadVideo</button>
             <button onclick="setTranscripts()">Transcribe</button>
-            <button onclick="downloadv()">Download</button>
+            <button onclick="downloadv()">Download</button></div>
+
           </li>
         </ul>
-      </nav>
-      
+      </nav> 
       <div class="video-editor">
-        <div class=="subs" id="subs">
-
-          <h2 class="dis" style="display: none;">Transcipts</h2>
-          <div id="loader" style="display: none">Loading...(Initial loading can take time to download the model please wait,check console for progress)</div>
-          <div id="word-list">
+          <div class="subs" id="word-list">
           </div>
-        </div>
+
         <div class="video-preview" id="video-preview">
-          <h2 class="dis" style="display: none;">Video</h2>
           <video display="none" controls id="video">
             <source src="temp.mp4" type="video/mp4">
             Your browser does not support the video tag.
           </video>
+          <p id="loader" style="display: none ;padding-left:20px;">Loading...</p>
         </div>
 
   
