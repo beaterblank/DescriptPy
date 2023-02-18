@@ -7,7 +7,7 @@ This repository aims to do what descripts does for paid in a free version, techn
 
 Here is a demo of the application
 
-![demo](./imgs/demo.png)
+![demo](imgs/demo.png)
 
 click on any word to stike it out and remove from the video click on it again to unstike it and the current word being spoken is being highlighted 
 
